@@ -114,7 +114,7 @@ class SlideToPayButton: UIView {
     }
     
     func setUpButton() {
-        self.layer.borderColor = borderColor.cgColor
+        self.layer.borderColor = UIColor(red: 229/255, green: 229/255, blue: 234/255, alpha: 1).cgColor
         self.layer.borderWidth = 1
         self.backgroundColor              = self.buttonColor
         
@@ -135,7 +135,7 @@ class SlideToPayButton: UIView {
             
             self.dragPointButtonLabel               = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
             self.dragPointButtonLabel.textAlignment = .center
-            self.dragPointButtonLabel.text          = "sdadfasd"
+            self.dragPointButtonLabel.text          = buttonText
             self.dragPointButtonLabel.textColor     = UIColor.white
             self.dragPointButtonLabel.textColor     = self.dragPointTextColor
             self.dragPoint.addSubview(self.dragPointButtonLabel)
@@ -149,9 +149,53 @@ class SlideToPayButton: UIView {
         self.imageView.clipsToBounds = true
         self.dragPoint.addSubview(self.imageView)
         self.layer.masksToBounds = true
+        
+        // start detecting pan gesture
+        let panGestureRecognizer                    = UIPanGestureRecognizer(target: self, action: #selector(self.panDetected(sender:)))
+        panGestureRecognizer.minimumNumberOfTouches = 1
+        self.dragPoint.addGestureRecognizer(panGestureRecognizer)
         self.viewCut.frame = CGRect(x: 0, y: 0, width: 0, height: viewCut.frame.size.height)
         viewCut.clipsToBounds = true
         self.viewTitle.frame = viewCut.frame
         viewTitle.clipsToBounds = true
     }
+
+    @objc func panDetected(sender: UIPanGestureRecognizer) {
+        var translatedPoint = sender.translation(in: self)
+        translatedPoint = CGPoint(x: translatedPoint.x, y: self.frame.size.height / 2)
+        
+        let finalPoint1 = CGPoint(x: translatedPoint.x, y: translatedPoint.y) // left point of the dragPoint/slider
+        let finalPoint2 = CGPoint(x: translatedPoint.x + dragPointWidth, y: translatedPoint.y) // right point of the dragPoint/slider
+        print("Point 1 \(finalPoint1)")
+        print("Point 2 \(finalPoint1)")
+        
+        sender.view?.frame.origin.x = (dragPointWidth - self.frame.size.width) + translatedPoint.x // view is dragPoint
+        self.viewCut.frame = CGRect(x: 0, y: 0, width: translatedPoint.x + imageView.frame.size.width/2, height: viewCut.frame.size.height)
+        self.viewTitle.frame = self.viewCut.frame
+        
+        if sender.state == .ended {
+            
+            let velocityX = sender.velocity(in: self).x * 0.2
+            var finalX = translatedPoint.x + velocityX
+            if finalX < 0 {
+                finalX = 0
+            } else if finalX + self.dragPointWidth  >  (self.frame.size.width - 40) { // checking if the point is 40 points near the end point then consider it at done.
+                //unlock here
+            }
+            
+            let animationDuration:Double = abs(Double(velocityX) * 0.0002) + 0.2
+            UIView.transition(with: self, duration: animationDuration, options: UIView.AnimationOptions.curveEaseOut, animations: {
+            }, completion: { (status) in
+                if status{
+                    self.animationCompleted()
+                }
+            })
+        }
+    }
+    
+    func animationCompleted(){
+           if !unlocked {
+            // reset state
+           }
+       }
 }
