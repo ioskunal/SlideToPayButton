@@ -167,7 +167,15 @@ class SlideToPayButton: UIView {
         let finalPoint1 = CGPoint(x: translatedPoint.x, y: translatedPoint.y) // left point of the dragPoint/slider
         let finalPoint2 = CGPoint(x: translatedPoint.x + dragPointWidth, y: translatedPoint.y) // right point of the dragPoint/slider
         print("Point 1 \(finalPoint1)")
-        print("Point 2 \(finalPoint1)")
+        print("Point 2 \(finalPoint2)")
+
+        if finalPoint1.x < 0 {
+           // reset the animation at this stage
+            return
+        } else if finalPoint2.x > self.frame.width {
+            // call unlock here
+            return
+        }
         
         sender.view?.frame.origin.x = (dragPointWidth - self.frame.size.width) + translatedPoint.x // view is dragPoint
         self.viewCut.frame = CGRect(x: 0, y: 0, width: translatedPoint.x + imageView.frame.size.width/2, height: viewCut.frame.size.height)
