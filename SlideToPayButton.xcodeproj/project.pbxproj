@@ -13,6 +13,7 @@
 		6EB77C9A23F974680010A16D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EB77C9823F974680010A16D /* Main.storyboard */; };
 		6EB77C9C23F9746A0010A16D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EB77C9B23F9746A0010A16D /* Assets.xcassets */; };
 		6EB77C9F23F9746A0010A16D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EB77C9D23F9746A0010A16D /* LaunchScreen.storyboard */; };
+		6EB77CA723F974F50010A16D /* SlideToPayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB77CA623F974F50010A16D /* SlideToPayButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		6EB77C9B23F9746A0010A16D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6EB77C9E23F9746A0010A16D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6EB77CA023F9746A0010A16D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6EB77CA623F974F50010A16D /* SlideToPayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideToPayButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +42,7 @@
 		6EB77C8623F974680010A16D = {
 			isa = PBXGroup;
 			children = (
+				6EB77CA623F974F50010A16D /* SlideToPayButton.swift */,
 				6EB77C9123F974680010A16D /* SlideToPayButton */,
 				6EB77C9023F974680010A16D /* Products */,
 			);
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EB77C9723F974680010A16D /* ViewController.swift in Sources */,
+				6EB77CA723F974F50010A16D /* SlideToPayButton.swift in Sources */,
 				6EB77C9323F974680010A16D /* AppDelegate.swift in Sources */,
 				6EB77C9523F974680010A16D /* SceneDelegate.swift in Sources */,
 			);
