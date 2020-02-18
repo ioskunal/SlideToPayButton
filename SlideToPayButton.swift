@@ -159,7 +159,7 @@ class SlideToPayButton: UIView {
         self.viewTitle.frame = viewCut.frame
         viewTitle.clipsToBounds = true
     }
-
+    
     @objc func panDetected(sender: UIPanGestureRecognizer) {
         var translatedPoint = sender.translation(in: self)
         translatedPoint = CGPoint(x: translatedPoint.x, y: self.frame.size.height / 2)
@@ -202,8 +202,23 @@ class SlideToPayButton: UIView {
     }
     
     func animationCompleted(){
-           if !unlocked {
-            // reset state
-           }
-       }
+        if !unlocked {
+            reset()
+        }
+    }
+    
+    func reset(){
+        UIView.transition(with: self, duration: 0.2, options: .curveEaseOut, animations: {
+            self.dragPoint.frame = CGRect(x: self.dragPointWidth - self.frame.size.width, y: 0, width: self.dragPoint.frame.size.width, height: self.dragPoint.frame.size.height)
+            self.viewCut.frame = CGRect(x: 0, y: 0, width: 0, height: self.viewCut.frame.size.height)
+            self.viewTitle.frame = self.viewCut.frame
+        }) { (status) in
+            if status {
+                self.dragPointButtonLabel.text      = self.buttonText
+                self.dragPoint.backgroundColor      = self.dragPointColor
+                self.dragPointButtonLabel.textColor = self.dragPointTextColor
+                self.unlocked                       = false
+            }
+        }
+    }
 }
