@@ -100,7 +100,7 @@ class SlideToPayButton: UIView {
         }
     }
     
-    func setStyle(){
+    private func setStyle(){
         self.buttonLabel.text               = self.buttonText
         self.dragPoint.frame.size.width     = self.frame.height
         self.dragPoint.backgroundColor      = self.dragPointColor
@@ -111,7 +111,7 @@ class SlideToPayButton: UIView {
         self.layer.cornerRadius             = buttonCornerRadius
     }
     
-    func addGradient() {
+    private func addGradient() {
         let color1 =  UIColor(red: 14/255.0, green: 179/255.0, blue: 146/255.0, alpha: 1.0)
         let color2 =  UIColor(red: 44/255.0, green: 213/255.0, blue: 138/255.0, alpha: 1.0)
         
@@ -129,7 +129,7 @@ class SlideToPayButton: UIView {
         viewTitle = UIView(frame: viewCut.frame)
     }
     
-    func addBackgroundTitle() {
+    private func addBackgroundTitle() {
         let labelTitle = UILabel(frame: viewTitle.frame)
         labelTitle.text = buttonText
         labelTitle.textAlignment = .center
@@ -138,7 +138,7 @@ class SlideToPayButton: UIView {
         self.addSubview(viewTitle)
     }
     
-    func setUpButton() {
+    private func setUpButton() {
         self.layer.borderColor = UIColor(red: 229/255, green: 229/255, blue: 234/255, alpha: 1).cgColor
         self.layer.borderWidth = 1
         self.backgroundColor              = self.buttonColor
@@ -219,13 +219,13 @@ class SlideToPayButton: UIView {
         }
     }
     
-    func animationCompleted(){
+    private func animationCompleted(){
         if !unlocked {
             reset()
         }
     }
     
-    func reset(){
+    internal func reset(){
         UIView.transition(with: self, duration: 0.2, options: .curveEaseOut, animations: {
             self.dragPoint.frame = CGRect(x: self.dragPointWidth - self.frame.size.width, y: 0, width: self.dragPoint.frame.size.width, height: self.dragPoint.frame.size.height)
             self.viewCut.frame = CGRect(x: 0, y: 0, width: 0, height: self.viewCut.frame.size.height)
@@ -238,7 +238,7 @@ class SlideToPayButton: UIView {
         }
     }
     
-    func unlock() {
+    private func unlock() {
         if unlocked == false {
             unlocked = true
             UIView.transition(with: self, duration: 0.2, options: .curveEaseOut, animations: {
