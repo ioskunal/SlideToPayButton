@@ -188,7 +188,7 @@ class SlideToPayButton: UIView {
             if finalX < 0 {
                 finalX = 0
             } else if finalX + self.dragPointWidth  >  (self.frame.size.width - 40) { // checking if the point is 40 points near the end point then consider it at done.
-                //unlock here
+                unlock()
             }
             
             let animationDuration:Double = abs(Double(velocityX) * 0.0002) + 0.2
@@ -218,6 +218,23 @@ class SlideToPayButton: UIView {
                 self.dragPoint.backgroundColor      = self.dragPointColor
                 self.dragPointButtonLabel.textColor = self.dragPointTextColor
                 self.unlocked                       = false
+            }
+        }
+    }
+    
+    func unlock() {
+        if unlocked == false {
+            unlocked = true
+            UIView.transition(with: self, duration: 0.2, options: .curveEaseOut, animations: {
+                self.dragPoint.frame = CGRect(x: self.frame.size.width - self.dragPoint.frame.size.width, y: 0, width: self.dragPoint.frame.size.width, height: self.dragPoint.frame.size.height)
+                self.viewCut.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.viewCut.frame.size.height)
+                self.viewTitle.frame = self.viewCut.frame
+            }) { (status) in
+                if status {
+//                    self.dragPointButtonLabel.text      = self.buttonUnlockedText
+//                    self.dragPoint.backgroundColor      = self.buttonUnlockedColor
+                    self.dragPointButtonLabel.textColor = self.buttonUnlockedTextColor
+                }
             }
         }
     }
