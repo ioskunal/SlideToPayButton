@@ -22,10 +22,9 @@ class SlideToPayButton: UIView {
     }
     
     //MARK:- VARIABLES
-
+    
     var dragPoint            = UIView()
     var buttonLabel          = UILabel()
-    var dragPointButtonLabel = UILabel()
     var imageView            = UIImageView() // to set the image on the dragPoint
     var unlocked             = false // just to keep track
     var layoutSet            = false // to set the gradient on the button
@@ -44,7 +43,7 @@ class SlideToPayButton: UIView {
         }
     }
     
-    @IBInspectable var dragPointColor: UIColor = UIColor.clear {
+    @IBInspectable var dragPointColor: UIColor = UIColor.clear { // sets the background color of the view before the drag point button
         didSet{
             setStyle()
         }
@@ -74,13 +73,13 @@ class SlideToPayButton: UIView {
         }
     }
     
-    @IBInspectable var dragPointTextColor: UIColor = UIColor.clear {
+    @IBInspectable var dragPointTextColor: UIColor = UIColor.gray {
         didSet{
             setStyle()
         }
     }
     
-    @IBInspectable var buttonUnlockedTextColor: UIColor = UIColor.white {
+    @IBInspectable var buttonUnlockedTextColor: UIColor = UIColor.systemPink {
         didSet{
             setStyle()
         }
@@ -91,8 +90,6 @@ class SlideToPayButton: UIView {
             setStyle()
         }
     }
-    @IBInspectable var buttonUnlockedText: String   = ""
-    @IBInspectable var buttonUnlockedColor: UIColor = UIColor.clear
     
     override func layoutSubviews() {
         if !layoutSet {
@@ -105,13 +102,11 @@ class SlideToPayButton: UIView {
     
     func setStyle(){
         self.buttonLabel.text               = self.buttonText
-        self.dragPointButtonLabel.text      = self.buttonText
         self.dragPoint.frame.size.width     = self.frame.height
         self.dragPoint.backgroundColor      = self.dragPointColor
         self.backgroundColor                = self.buttonColor
         self.imageView.image                = imageName
         self.buttonLabel.textColor          = self.buttonTextColor
-        self.dragPointButtonLabel.textColor = self.dragPointTextColor
         self.dragPoint.layer.cornerRadius   = buttonCornerRadius
         self.layer.cornerRadius             = buttonCornerRadius
     }
@@ -119,7 +114,7 @@ class SlideToPayButton: UIView {
     func addGradient() {
         let color1 =  UIColor(red: 14/255.0, green: 179/255.0, blue: 146/255.0, alpha: 1.0)
         let color2 =  UIColor(red: 44/255.0, green: 213/255.0, blue: 138/255.0, alpha: 1.0)
-
+        
         viewCut = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
         viewCut.backgroundColor = UIColor.clear
         let colorTop = color1.cgColor
@@ -162,13 +157,6 @@ class SlideToPayButton: UIView {
             self.buttonLabel.textColor     = self.buttonTextColor
             self.addSubview(self.buttonLabel)
             self.bringSubviewToFront(self.viewTitle)
-            
-            self.dragPointButtonLabel               = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
-            self.dragPointButtonLabel.textAlignment = .center
-            self.dragPointButtonLabel.text          = buttonText
-            self.dragPointButtonLabel.textColor     = UIColor.white
-            self.dragPointButtonLabel.textColor     = self.dragPointTextColor
-            self.dragPoint.addSubview(self.dragPointButtonLabel)
         }
         self.bringSubviewToFront(self.dragPoint)
         
@@ -198,12 +186,12 @@ class SlideToPayButton: UIView {
         let finalPoint2 = CGPoint(x: translatedPoint.x + dragPointWidth, y: translatedPoint.y) // right point of the dragPoint/slider
         print("Point 1 \(finalPoint1)")
         print("Point 2 \(finalPoint2)")
-
+        
         if finalPoint1.x < 0 {
-           // reset the animation at this stage
+            self.reset()
             return
         } else if finalPoint2.x > self.frame.width {
-            // call unlock here
+            self.unlock()
             return
         }
         
@@ -218,13 +206,13 @@ class SlideToPayButton: UIView {
             if finalX < 0 {
                 finalX = 0
             } else if finalX + self.dragPointWidth  >  (self.frame.size.width - 40) { // checking if the point is 40 points near the end point then consider it at done.
-                unlock()
+                self.unlock()
             }
             
             let animationDuration:Double = abs(Double(velocityX) * 0.0002) + 0.2
             UIView.transition(with: self, duration: animationDuration, options: UIView.AnimationOptions.curveEaseOut, animations: {
-            }, completion: { (status) in
-                if status{
+            }, completion: { (Status) in
+                if Status{
                     self.animationCompleted()
                 }
             })
@@ -244,9 +232,7 @@ class SlideToPayButton: UIView {
             self.viewTitle.frame = self.viewCut.frame
         }) { (status) in
             if status {
-                self.dragPointButtonLabel.text      = self.buttonText
                 self.dragPoint.backgroundColor      = self.dragPointColor
-                self.dragPointButtonLabel.textColor = self.dragPointTextColor
                 self.unlocked                       = false
             }
         }
@@ -261,9 +247,8 @@ class SlideToPayButton: UIView {
                 self.viewTitle.frame = self.viewCut.frame
             }) { (status) in
                 if status {
-//                    self.dragPointButtonLabel.text      = self.buttonUnlockedText
-//                    self.dragPoint.backgroundColor      = self.buttonUnlockedColor
-                    self.dragPointButtonLabel.textColor = self.buttonUnlockedTextColor
+                    // call delegate here
+                    self.reset()
                 }
             }
         }
