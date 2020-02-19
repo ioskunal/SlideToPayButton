@@ -61,7 +61,7 @@ class SlideToPayButton: UIView {
         }
     }
     
-    @IBInspectable var imageName: UIImage = UIImage() {
+    @IBInspectable var imageName: UIImage = UIImage(named: "icRocket")! {
         didSet{
             setStyle()
         }
@@ -105,7 +105,6 @@ class SlideToPayButton: UIView {
         self.dragPoint.frame.size.width     = self.frame.height
         self.dragPoint.backgroundColor      = self.dragPointColor
         self.backgroundColor                = self.buttonColor
-        self.imageView.image                = imageName
         self.buttonLabel.textColor          = self.buttonTextColor
         self.dragPoint.layer.cornerRadius   = buttonCornerRadius
         self.layer.cornerRadius             = buttonCornerRadius
@@ -163,6 +162,7 @@ class SlideToPayButton: UIView {
         self.imageView = UIImageView(frame: CGRect(x: self.frame.size.width - dragPointWidth, y: 0, width: self.frame.size.height, height: self.frame.size.height))
         self.imageView.contentMode = .center
         self.imageView.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+        self.imageView.image = imageName
         self.imageView.layer.cornerRadius = self.imageView.frame.size.height/2
         self.imageView.clipsToBounds = true
         self.dragPoint.addSubview(self.imageView)
