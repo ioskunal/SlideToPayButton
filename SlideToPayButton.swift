@@ -21,13 +21,6 @@ class SlideToPayButton: UIView {
         super.init(coder: aDecoder)!
     }
     
-    override func layoutSubviews() {
-        if !layoutSet {
-            self.setUpButton()
-            self.layoutSet = true
-        }
-    }
-    
     //MARK:- VARIABLES
 
     var dragPoint            = UIView()
@@ -51,7 +44,7 @@ class SlideToPayButton: UIView {
         }
     }
     
-    @IBInspectable var dragPointColor: UIColor = UIColor.red {
+    @IBInspectable var dragPointColor: UIColor = UIColor.clear {
         didSet{
             setStyle()
         }
@@ -98,7 +91,17 @@ class SlideToPayButton: UIView {
             setStyle()
         }
     }
-
+    @IBInspectable var buttonUnlockedText: String   = ""
+    @IBInspectable var buttonUnlockedColor: UIColor = UIColor.clear
+    
+    override func layoutSubviews() {
+        if !layoutSet {
+            addGradient()
+            addBackgroundTitle()
+            setUpButton()
+            layoutSet = true
+        }
+    }
     
     func setStyle(){
         self.buttonLabel.text               = self.buttonText
@@ -111,6 +114,33 @@ class SlideToPayButton: UIView {
         self.dragPointButtonLabel.textColor = self.dragPointTextColor
         self.dragPoint.layer.cornerRadius   = buttonCornerRadius
         self.layer.cornerRadius             = buttonCornerRadius
+    }
+    
+    func addGradient() {
+        let color1 =  UIColor(red: 14/255.0, green: 179/255.0, blue: 146/255.0, alpha: 1.0)
+        let color2 =  UIColor(red: 44/255.0, green: 213/255.0, blue: 138/255.0, alpha: 1.0)
+
+        viewCut = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
+        viewCut.backgroundColor = UIColor.clear
+        let colorTop = color1.cgColor
+        let colorBottom = color2.cgColor
+        let gradient = CAGradientLayer()
+        gradient.colors = [colorTop, colorBottom]
+        gradient.frame = self.bounds
+        gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
+        gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+        viewCut.layer.insertSublayer(gradient, at: 0)
+        self.addSubview(viewCut)
+        viewTitle = UIView(frame: viewCut.frame)
+    }
+    
+    func addBackgroundTitle() {
+        let labelTitle = UILabel(frame: viewTitle.frame)
+        labelTitle.text = buttonText
+        labelTitle.textAlignment = .center
+        labelTitle.textColor = UIColor.white
+        viewTitle.addSubview(labelTitle)
+        self.addSubview(viewTitle)
     }
     
     func setUpButton() {
