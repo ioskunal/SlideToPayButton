@@ -21,9 +21,6 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="4rB-0y-2LR"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="image" keyPath="imageName" value="icRocket"/>
-                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -41,7 +38,4 @@
             <point key="canvasLocation" x="139" y="110"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="icRocket" width="56" height="56"/>
-    </resources>
 </document>

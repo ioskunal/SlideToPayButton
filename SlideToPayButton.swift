@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+protocol SwipeToPayDelegate: class {
+    func buttonStatus(status:String, sender: SlideToPayButton)
+}
+
 class SlideToPayButton: UIView {
     
     //MARK:- INITIALIZERS
@@ -30,7 +34,8 @@ class SlideToPayButton: UIView {
     var layoutSet            = false // to set the gradient on the button
     var viewCut              = UIView() //used for showingbackground behind the slider on left
     var viewTitle            = UIView() //used for showingbackground behind the slider on left
-    
+    var delegate: SwipeToPayDelegate?
+
     @IBInspectable var dragPointWidth: CGFloat = 56 {
         didSet{
             setStyle()
@@ -105,6 +110,7 @@ class SlideToPayButton: UIView {
         self.dragPoint.frame.size.width     = self.frame.height
         self.dragPoint.backgroundColor      = self.dragPointColor
         self.backgroundColor                = self.buttonColor
+        self.imageView.image                = imageName
         self.buttonLabel.textColor          = self.buttonTextColor
         self.dragPoint.layer.cornerRadius   = buttonCornerRadius
         self.layer.cornerRadius             = buttonCornerRadius
@@ -249,6 +255,7 @@ class SlideToPayButton: UIView {
                 if status {
                     // call delegate here
                     self.reset()
+                    self.delegate?.buttonStatus(status: "Unlocked", sender: self)
                 }
             }
         }
