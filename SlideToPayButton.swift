@@ -254,7 +254,6 @@ class SlideToPayButton: UIView {
             }) { (status) in
                 if status {
                     // call delegate here
-                    self.reset()
                     self.delegate?.buttonStatus(status: "Unlocked", sender: self)
                 }
             }
