@@ -33,8 +33,8 @@ class SlideToPayButton: UIView {
     var unlocked             = false // just to keep track
     var layoutSet            = false // to set the gradient on the button
     var viewCut              = UIView() //used for showingbackground behind the slider on left
-    var viewTitle            = UIView() //used for showingbackground behind the slider on left
-    var delegate: SwipeToPayDelegate?
+    var viewTitle            = UIView() //used for showingbackground title behind the slider on left
+    var delegate             : SwipeToPayDelegate?
 
     @IBInspectable var dragPointWidth: CGFloat = 56 {
         didSet{
@@ -78,18 +78,6 @@ class SlideToPayButton: UIView {
         }
     }
     
-    @IBInspectable var dragPointTextColor: UIColor = UIColor.gray {
-        didSet{
-            setStyle()
-        }
-    }
-    
-    @IBInspectable var buttonUnlockedTextColor: UIColor = UIColor.systemPink {
-        didSet{
-            setStyle()
-        }
-    }
-    
     @IBInspectable var buttonCornerRadius: CGFloat = 32 {
         didSet{
             setStyle()
@@ -105,7 +93,7 @@ class SlideToPayButton: UIView {
         }
     }
     
-    private func setStyle(){
+    private func setStyle() {
         self.buttonLabel.text               = self.buttonText
         self.dragPoint.frame.size.width     = self.frame.height
         self.dragPoint.backgroundColor      = self.dragPointColor
@@ -121,7 +109,7 @@ class SlideToPayButton: UIView {
         let color2 =  UIColor(red: 44/255.0, green: 213/255.0, blue: 138/255.0, alpha: 1.0)
         
         viewCut = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
-        viewCut.backgroundColor = UIColor.clear
+        viewCut.backgroundColor = UIColor.yellow
         let colorTop = color1.cgColor
         let colorBottom = color2.cgColor
         let gradient = CAGradientLayer()
@@ -144,8 +132,8 @@ class SlideToPayButton: UIView {
     }
     
     private func setUpButton() {
-        self.layer.borderColor = UIColor(red: 229/255, green: 229/255, blue: 234/255, alpha: 1).cgColor
-        self.layer.borderWidth = 1
+        self.layer.borderColor            = borderColor.cgColor
+        self.layer.borderWidth            = 1
         self.backgroundColor              = self.buttonColor
         
         self.dragPoint                    = UIView(frame: CGRect(x: dragPointWidth - self.frame.size.width, y: 0, width: self.frame.size.width, height: self.frame.size.height))
