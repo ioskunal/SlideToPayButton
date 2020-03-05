@@ -84,6 +84,18 @@ class SlideToPayButton: UIView {
         }
     }
     
+    @IBInspectable var gradientColor1: UIColor = UIColor(red: 14/255.0, green: 179/255.0, blue: 146/255.0, alpha: 1.0) {
+        didSet{
+            setStyle()
+        }
+    }
+    
+    @IBInspectable var gradientColor2: UIColor = UIColor(red: 44/255.0, green: 213/255.0, blue: 138/255.0, alpha: 1.0) {
+        didSet{
+            setStyle()
+        }
+    }
+    
     override func layoutSubviews() {
         if !layoutSet {
             addGradient()
@@ -105,13 +117,11 @@ class SlideToPayButton: UIView {
     }
     
     private func addGradient() {
-        let color1 =  UIColor(red: 14/255.0, green: 179/255.0, blue: 146/255.0, alpha: 1.0)
-        let color2 =  UIColor(red: 44/255.0, green: 213/255.0, blue: 138/255.0, alpha: 1.0)
         
         viewCut = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
         viewCut.backgroundColor = UIColor.yellow
-        let colorTop = color1.cgColor
-        let colorBottom = color2.cgColor
+        let colorTop = gradientColor1.cgColor
+        let colorBottom = gradientColor2.cgColor
         let gradient = CAGradientLayer()
         gradient.colors = [colorTop, colorBottom]
         gradient.frame = self.bounds
